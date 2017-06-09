@@ -1,11 +1,14 @@
-import Vue from 'vue'
-import Hello from '@/components/Hello'
+import { getUrlParams } from '@/utils/tool'
 
-describe('Hello.vue', () => {
-  it('should render correct contents', () => {
-    const Constructor = Vue.extend(Hello)
-    const vm = new Constructor().$mount()
-    expect(vm.$el.querySelector('.hello h1').textContent)
-      .to.equal('Welcome to Your Vue.js App')
+describe('Test the Tool', () => {
+  describe('getUrlParams', () => {
+    it('should return wechat', () => {
+      expect(getUrlParams('type', 'https://baidu.com?type=wechat'))
+        .to.equal('wechat')
+    })
+    it('should return ali', () => {
+      expect(getUrlParams('type', 'https://baidu.com?type=ali#anchor'))
+        .to.equal('ali')
+    })
   })
 })

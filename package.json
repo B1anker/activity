@@ -14,8 +14,11 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "isparta-loader": "^2.0.0",
     "vue": "^2.3.3",
     "vue-router": "^2.3.1",
+    "vuex": "^2.3.1",
     "vux": "^2.3.5",
     "vux-loader": "^1.0.63"
   },
