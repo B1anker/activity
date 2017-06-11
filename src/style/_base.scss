@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-size: 0;
+}
+
+button {
+  outline: none;
+  border: none;
+}

@@ -1,23 +1,31 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import auth from '@/utils/auth'
+import { resize } from '@/utils/tool'
 export default {
-  name: 'app'
+  name: 'app',
+
+  mounted () {
+    auth()
+    resize()
+  }
 }
 </script>
 
-<style>
+<style lang='scss'>
+@import 'style/app';
 #app {
+  height: 100%;
+  width: 100%;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

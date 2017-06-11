@@ -29,12 +29,13 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/activity-engine': {
-        target: 'http://dollartech.cn',
+        target: 'https://www.tdollar.cn',
+        changeOrigin: true
+      },
+      '/investment-barometer': {
+        target:'https://www.tdollar.cn',
         changeOrigin: true,
-        ws: true,
-        pathRewrite: {
-          '^/activity-engine': '/activity-engine'
-        }
+        ws: true
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

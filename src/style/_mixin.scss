@@ -1,0 +1,21 @@
+@mixin psa {
+  position: absolute;
+}
+
+@mixin psr {
+  position: relative;
+}
+
+@mixin psf {
+  position: fixed;
+}
+
+@mixin set-width-height($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin background($url) {
+  background: url($url) no-repeat;
+  background-size: 100% 100%;
+}

@@ -5,8 +5,13 @@ import Vuex from 'vuex'
 import App from './App'
 import router from './router'
 import store from './store/store'
+import { httpSetting, httpPlugin } from '@/api/http'
+import installAllPlugins from '@/plugins'
 
+Vue.use(httpPlugin, httpSetting(router))
 Vue.use(Vuex)
+
+installAllPlugins()
 
 Vue.config.productionTip = false
 
