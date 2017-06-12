@@ -4,22 +4,22 @@
     <div class="center-egg" @click="moveHammer"></div>
     <div class="right-egg" @click="moveHammer"></div>
     <div class="hammer" :class="hammerMoveClass" ref="hammer"></div>
-    <!--<info :visible="infoVisible" text="我知道了" @close="infoVisible = false">
-      <p>领奖信息提交成功</p>
-      <p>请留意您的短信通知</p>
-    </info>-->
+    <award-dialog :visible="awardDialogVisible"
+      :trophyType="trophyType"
+      @close="closeAwardDialog">
+    </award-dialog>
+    <phone-dialog :visible="phoneDialogVisible"
+      @close="closePhoneDialog">
+    </phone-dialog>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
 import { XDialog, TransferDomDirective as TransferDom } from 'vux'
-// import Info from '@/packages/info'
-import Info from '@/plugins/info'
+import AwardDialog from '@/components/dialog/award'
+import PhoneDialog from '@/components/dialog/phone'
+// import draw from '@/business/draw'
 
-import draw from '@/business/draw'
-
-Vue.use(Info)
 export default {
   name: 'game',
 
@@ -28,7 +28,9 @@ export default {
   },
 
   components: {
-    XDialog
+    XDialog,
+    AwardDialog,
+    PhoneDialog
   },
 
   data () {
@@ -39,8 +41,9 @@ export default {
         right: false,
         origin: true
       },
-      drawDialogVisible: false,
-      infoVisible: false
+      awardDialogVisible: false,
+      phoneDialogVisible: false,
+      trophyType: ''
     }
   },
 
@@ -67,18 +70,20 @@ export default {
   methods: {
     setHammerEvent () {
       this.$refs.hammer.addEventListener('transitionend', (e) => {
-        draw('post').then((res) => {
-
-        }).catch((err) => {
-          if (err.response.data.status_code === 'E0006') {
-            this.$info.show({
-              buttonText: '我知道了',
-              content: [
-                err.response.data.message
-              ]
-            })
-          }
-        })
+        this.awardDialogVisible = true
+        // draw('post').then((res) => {
+        //   this.awardVisible = true
+        //   this.trophyType = res.body.trophyDisplayName
+        // }).catch((err) => {
+        //   if (err.response.data.status_code === 'E0006') {
+        //     this.$info.show({
+        //       buttonText: '我知道了',
+        //       content: [
+        //         err.response.data.message
+        //       ]
+        //     })
+        //   }
+        // })
       }, false)
     },
 
@@ -100,6 +105,15 @@ export default {
           this.setTrue(this.hammerMoveClass, 'center')
           break
       }
+    },
+
+    closeAwardDialog (params) {
+      this.awardDialogVisible = false
+      this.phoneDialogVisible = true
+    },
+
+    closePhoneDialog (params) {
+      this.phoneDialogVisible = false
     }
   }
 }

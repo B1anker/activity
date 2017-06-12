@@ -8,8 +8,18 @@ Vue.use(Vuex)
 
 const state = {
   user: {
-    id: ''
-  }
+    id: '',
+    state: {
+      gameDayTimesLimit: 0,
+      gameTotalTimesLimit: 0,
+      playerDayTimes: 0,
+      playerTodayLotteryTimes: 0,
+      playerTotalLotteryTimes: 0,
+      playerTotalTimes: 0,
+      shareState: 'NOT_YET_SHARE'
+    }
+  },
+  trophies: []
 }
 
 export default new Vuex.Store({

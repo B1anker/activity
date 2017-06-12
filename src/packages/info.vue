@@ -1,5 +1,5 @@
 <template>
-  <x-dialog class="info" v-model="visible">
+  <x-dialog v-model="visible">
     <div class="info">
       <div class="content">
         <p v-for="(item, index) in content">{{ item }}</p>

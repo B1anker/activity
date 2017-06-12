@@ -34,7 +34,6 @@ function genPostDate (obj) {
   obj.market = '1'
   obj.appversion = '1'
   obj.channel = config.channel
-  console.log(obj)
   return obj
 }
 

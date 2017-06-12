@@ -10,7 +10,7 @@ import { resize } from '@/utils/tool'
 export default {
   name: 'app',
 
-  mounted () {
+  created () {
     auth()
     resize()
   }
