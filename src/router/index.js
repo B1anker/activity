@@ -5,9 +5,11 @@ import Game from '@/components/game'
 import AwardPage from '@/components/award'
 import Error from '@/components/error'
 
+import home from './home'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [{
     path: '/',
     redirect: '/home'
@@ -30,3 +32,10 @@ export default new Router({
     }]
   }]
 })
+
+router.beforeEach((to, from, next) => {
+  home(...arguments)
+  next()
+})
+
+export default router

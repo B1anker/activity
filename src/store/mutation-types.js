@@ -1,3 +1,4 @@
 export const SET_USER_INFORMATION = 'SET_USER_INFORMATION'
 export const SET_USER_ID = 'SET_USER_ID'
+export const CLEAR_TROPHY = 'CLEAR_TROPHY'
 export const ADD_TROPHY = 'ADD_TROPHY'

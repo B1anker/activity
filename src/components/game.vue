@@ -4,12 +4,16 @@
     <div class="center-egg" @click="moveHammer"></div>
     <div class="right-egg" @click="moveHammer"></div>
     <div class="hammer" :class="hammerMoveClass" ref="hammer"></div>
+    <div class="times">
+      <p>今天您还有<span>{{ times }}</span>次砸蛋机会</p>
+    </div>
     <award-dialog :visible="awardDialogVisible"
-      :trophyType="trophyType"
+      :trophyData="trophyData"
       @close="closeAwardDialog">
     </award-dialog>
     <phone-dialog :visible="phoneDialogVisible"
-      @close="closePhoneDialog">
+      @close="closePhoneDialog"
+      :trophyData="trophyData">
     </phone-dialog>
   </div>
 </template>
@@ -18,7 +22,8 @@
 import { XDialog, TransferDomDirective as TransferDom } from 'vux'
 import AwardDialog from '@/components/dialog/award'
 import PhoneDialog from '@/components/dialog/phone'
-// import draw from '@/business/draw'
+import draw from '@/business/draw'
+import { mapState } from 'vuex'
 
 export default {
   name: 'game',
@@ -43,7 +48,7 @@ export default {
       },
       awardDialogVisible: false,
       phoneDialogVisible: false,
-      trophyType: ''
+      trophyData: {}
     }
   },
 
@@ -58,33 +63,41 @@ export default {
         return true
       })
       return result
-    }
+    },
+
+    ...mapState({
+      times: state => state.user.state.gameDayTimesLimit - state.user.state.playerDayTimes
+    })
   },
 
   mounted () {
-    this.$nextTick(() => {
-      this.setHammerEvent()
-    })
   },
 
   methods: {
     setHammerEvent () {
-      this.$refs.hammer.addEventListener('transitionend', (e) => {
+      this.$refs.hammer.removeEventListener('transitionend', this.setHammerEvent, false)
+      draw('post').then((res) => {
+        this.trophyData = res.data.trophyItems[0]
         this.awardDialogVisible = true
-        // draw('post').then((res) => {
-        //   this.awardVisible = true
-        //   this.trophyType = res.body.trophyDisplayName
-        // }).catch((err) => {
-        //   if (err.response.data.status_code === 'E0006') {
-        //     this.$info.show({
-        //       buttonText: '我知道了',
-        //       content: [
-        //         err.response.data.message
-        //       ]
-        //     })
-        //   }
-        // })
-      }, false)
+      }).catch((err) => {
+        if (err.response.data.status_code === 'E0006') {
+          this.$info.show({
+            buttonText: '我知道了',
+            content: [
+              err.response.data.message
+            ]
+          }).then(() => {
+            this.setTrue(this.hammerMoveClass, 'origin')
+          })
+        } else {
+          this.$info.show({
+            buttonText: '我知道了',
+            content: [
+              err.response.data.message
+            ]
+          })
+        }
+      })
     },
 
     setTrue (obj, target) {
@@ -94,7 +107,8 @@ export default {
     },
 
     moveHammer (e) {
-      switch (e.target.className) {
+      this.$refs.hammer.addEventListener('transitionend', this.setHammerEvent, false)
+      switch ((e && e.target && e.target.className) || '') {
         case 'left-egg' :
           this.setTrue(this.hammerMoveClass, 'left')
           break
@@ -104,16 +118,24 @@ export default {
         case 'center-egg' :
           this.setTrue(this.hammerMoveClass, 'center')
           break
+        default:
+          this.setTrue(this.hammerMoveClass, 'origin')
+          break
       }
     },
 
     closeAwardDialog (params) {
       this.awardDialogVisible = false
-      this.phoneDialogVisible = true
+      if (params !== '谢谢参与') {
+        this.phoneDialogVisible = true
+      }
+      this.setTrue(this.hammerMoveClass, 'origin')
     },
 
     closePhoneDialog (params) {
       this.phoneDialogVisible = false
+      this.$emit('close', 'game')
+      this.$router.push('award')
     }
   }
 }
@@ -169,6 +191,24 @@ export default {
 
     &.right {
       transform: translate(1.3rem, .8rem);
+    }
+  }
+
+  .times {
+    @extend %align-center;
+    top: 4.9rem;
+    color: white;
+
+    p {
+      color: rgba(255, 255, 255, .8);
+      font-size: .2rem;
+    }
+
+    span {
+      color: rgb(255, 244, 47);
+      font-weight: 500;
+      margin: 0 .05rem;
+      font-size: .28rem;
     }
   }
 }

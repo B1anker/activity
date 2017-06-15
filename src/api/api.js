@@ -9,5 +9,6 @@ export default {
   baseUrl: 'activity-engine',
   info: `info/${config.activity.id}`,
   draw: 'draw',
-  openId: 'openId'
+  openId: 'openId',
+  exchange: 'userInfo'
 }

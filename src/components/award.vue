@@ -10,7 +10,10 @@
         <div class="iphone7" v-if="trophy.trophyDisplayName === 'iphone7'">
           <p class="text">iPhone7</p>
           <img src="../assets/game/iphone7.png" alt="">
-          <div class="button">点击领取</div>
+          <div class="button"
+            v-if="trophy.itemStatus === 'DRAW'"
+            @click="handleClick(index)">点击领取</div>
+          <div v-else class="tips" v-html="trophy.tips"></div>
         </div>
         <div class="charge" v-if="trophy.trophyDisplayName === '手机话费'">
           <div class="content">
@@ -21,7 +24,12 @@
             <p class="type">手机话费</p>
           </div>
           <img src="../assets/game/recharge.png" alt="">
-          <div class="button">点击领取</div>
+          <div class="button"
+            v-if="trophy.itemStatus === 'DRAW'"
+            @click="handleClick(index)">
+            点击领取
+          </div>
+          <div v-else class="tips" v-html="trophy.tips"></div>
         </div>
         <div class="flow" v-if="trophy.trophyDisplayName === '手机流量10元'">
           <div class="content">
@@ -32,19 +40,26 @@
             <p class="type">手机流量</p>
           </div>
           <img src="../assets/game/recharge.png" alt="">
-          <div class="button">点击领取</div>
+          <div class="button" 
+            v-if="trophy.itemStatus === 'DRAW'"
+            @click="handleClick(index)">
+            点击领取
+          </div>
+          <div v-else class="tips" v-html="trophy.tips"></div>
         </div>
       </swiper-item>
     </swiper>
     <div v-else class="no-award">
       暂无奖品
     </div>
+    <phone-dialog :trophyData="trophyData" :visible="phoneDialogVisible"></phone-dialog>
   </view-box>
 </template>
 
 <script>
 import { ViewBox, Swiper, SwiperItem } from 'vux'
 import { mapState } from 'vuex'
+import PhoneDialog from '@/components/dialog/phone'
 import draw from '@/business/draw'
 
 export default {
@@ -53,18 +68,29 @@ export default {
   components: {
     ViewBox,
     Swiper,
-    SwiperItem
+    SwiperItem,
+    PhoneDialog
   },
 
   computed: {
     ...mapState({
       trophies: state => state.trophies
-    })
+    }),
+
+    trophyData () {
+      return this.trophies[this.index]
+    }
   },
 
   mounted () {
     draw('get').then((res) => {
-      this.$store.dispatch('addTrophy', res.data.trophyItems)
+      const trophyItems = res.data.trophyItems.filter((item, index) => {
+        return item.trophyDisplayName !== '谢谢参与'
+      }).map((item, index) => {
+        item.tips = this.addTips(item.trophyDisplayName)
+        return item
+      })
+      this.$store.dispatch('addTrophy', trophyItems)
     }).catch((err) => {
       console.log(err)
       this.$info({
@@ -77,12 +103,31 @@ export default {
 
   data () {
     return {
+      index: 0,
+      phoneDialogVisible: false
     }
   },
 
   methods: {
     handleClose () {
+      this.$emit('close', 'award')
       this.$router.push('/home')
+    },
+
+    handleClick (index) {
+      this.index = index
+      this.phoneDialogVisible = true
+    },
+
+    addTips (type) {
+      switch (type) {
+        case 'iphone7':
+          return '请留意您的手机来电，<br />将有专人通知您来领取iPhone7'
+        case '手机话费':
+          return '话费将发放至填写的手机号中，请留意短信。非移动/电信号码可能无法收到奖品，请点击财富号首页“联系商家”联系解决。'
+        case '手机流量10元':
+          return '手机流量将发送至填写的手机账号中，<br />请留意您的短信通知。'
+      }
     }
   }
 }
@@ -199,7 +244,7 @@ div.weui-tab__panel {
 
           .type {
             @extend %align-center;
-            top: .7rem;
+            top: .6rem;
             font-size: 0.12rem;
           }
         }
@@ -210,6 +255,16 @@ div.weui-tab__panel {
         @include background('../assets/button/get_btn.png');
         margin: .5rem auto 0 auto;
         transform: scale(1.6);
+      }
+
+      .tips {
+        margin: 0 auto;
+        padding: .1rem;
+        width: 3.2rem;
+        font-size: .17rem;
+        color: white;
+        border-radius: .1rem;
+        background-color: #b86cdd;
       }
     }
   }

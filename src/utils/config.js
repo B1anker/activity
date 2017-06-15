@@ -2,7 +2,7 @@ export default {
   debug: true,
   userId: '2088502779671826',
   activity: {
-    id: 'DL5c0d019ad6dc470a91d96e82b34a4f18',
+    id: 'DLc9030c8794534d8595e2e9c8e214920b',
     company: '5bd8ef87f1de4ab699ce7c354d23e9ca'
   },
   channel: 'ali',

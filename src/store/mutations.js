@@ -11,6 +11,10 @@ export default {
     state.user.id = update
   },
 
+  [types.CLEAR_TROPHY] (state, update) {
+    state.trophies = update
+  },
+
   [types.ADD_TROPHY] (state, update) {
     state.trophies.push(update)
   }
