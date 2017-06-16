@@ -1,6 +1,8 @@
+import Vue from 'vue'
 import config from './config'
 import store from '@/store/store'
 import { getUrlParams } from './tool'
+import api from '@/api/api'
 
 function auth () {
   const authConfig = config[config.channel]
@@ -16,12 +18,23 @@ function auth () {
     return
   }
 
-  if (isTargetBrowser && getUrlParams(code) === '') {
+  if (!isTargetBrowser || code === '') {
     if (authConfig.name === 'ali') {
       window.location.href = `${authConfig.head}${appId}&scope=${scope}&redirect_uri=${url}`
-    } else {
-      window.location.href = `${authConfig.head}${appId}&redirect_uri=${url}&response_type=code&scope=${scope}&state=STATE#wechat_redirect`
+    } else if (authConfig.name === 'wechat') {
+      window.location.href = `${authConfig.head}${appId}&redirect_uri=${url}&response_type=code&scope=${scope}&state=STATE&component_appid=wx1a937f600d12a049#wechat_redirect`
     }
+  } else {
+    Vue.prototype.$http.get(api.openId, {
+      params: {
+        code,
+        scope: 'USER_INFO',
+        url: document.location.href.split('#')[0]
+      }
+    }).then((res) => {
+      console.log(res)
+      store.dispatch('setUserId', res.body.openId)
+    })
   }
 }
 

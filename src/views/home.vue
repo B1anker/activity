@@ -54,6 +54,7 @@ export default {
     fetchDate () {
       this.$http.get(api.info, {
         params: {
+          type: 'WECHAT',
           authKey: this.id
         }
       }).then((res) => {

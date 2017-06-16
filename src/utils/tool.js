@@ -4,7 +4,7 @@ import store from '@/store/store'
 
 function getUrlParams (query, _url) {
   const url = _url || window.location.href
-  const paramsString = url.substring(url.indexOf('?') + 1, url.indexOf('#') === -1 ? url.length : url.indexOf('#')).split('&')
+  const paramsString = url.substring(url.indexOf('?') + 1, url.length).split('&')
   let paramsObj = {}
 
   paramsString.forEach((item, index) => {
