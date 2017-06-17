@@ -19,6 +19,7 @@ export default {
     auth_type: 'WECHAT',
     name: 'wechat',
     appId: 'wx2787882605dd8b41',
+    component_appid: 'wx1a937f600d12a049',
     code: 'code',
     scope: 'snsapi_userinfo', // snsapi_base
     ua: 'micromessenger',

@@ -19,7 +19,7 @@ function httpSetting ($router) {
   http.interceptors.request.use((config) => {
     const method = config.method.toLowerCase()
     if (method === 'post' || method === 'put') {
-      config.url += `?sign=${sign(config.url)}`
+      config.url += `?sign=${sign()}`
       config.data = genPostDate(config.data || {})
     } else if (method === 'get') {
       config.params.sign = sign()

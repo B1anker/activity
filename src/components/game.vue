@@ -66,7 +66,7 @@ export default {
     },
 
     ...mapState({
-      times: state => state.user.state.gameDayTimesLimit - state.user.state.playerDayTimes
+      times: state => state.activityState.gameDayTimesLimit - state.activityState.playerDayTimes
     })
   },
 
@@ -80,23 +80,14 @@ export default {
         this.trophyData = res.data.trophyItems[0]
         this.awardDialogVisible = true
       }).catch((err) => {
-        if (err.response.data.status_code === 'E0006') {
-          this.$info.show({
-            buttonText: '我知道了',
-            content: [
-              err.response.data.message
-            ]
-          }).then(() => {
-            this.setTrue(this.hammerMoveClass, 'origin')
-          })
-        } else {
-          this.$info.show({
-            buttonText: '我知道了',
-            content: [
-              err.response.data.message
-            ]
-          })
-        }
+        this.$info.show({
+          buttonText: '我知道了',
+          content: [
+            err.response.data.message
+          ]
+        }).then(() => {
+          this.setTrue(this.hammerMoveClass, 'origin')
+        })
       })
     },
 

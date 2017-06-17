@@ -1,14 +1,13 @@
 import * as types from './mutation-types'
+import { setProperties } from '@/utils/tool'
 
 export default {
   [types.SET_USER_INFORMATION] (state, update) {
-    Object.keys(update).forEach((key, index) => {
-      state.user[key] = update[key]
-    })
+    setProperties(state.user, update)
   },
 
-  [types.SET_USER_ID] (state, update) {
-    state.user.id = update
+  [types.SET_ACTIVITY_STATE] (state, update) {
+    setProperties(state.activityState, update)
   },
 
   [types.CLEAR_TROPHY] (state, update) {
@@ -17,5 +16,9 @@ export default {
 
   [types.ADD_TROPHY] (state, update) {
     state.trophies.push(update)
+  },
+
+  [types.SET_BUTTON_VISIBLE] (state, update) {
+    setProperties(state.buttonVisible, update)
   }
 }

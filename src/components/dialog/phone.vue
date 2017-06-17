@@ -55,7 +55,7 @@ export default {
       } else if (this.phone && this.$refs.input.valid) {
         this.$http.post(api.exchange, {
           phone: this.phone,
-          authKey: this.$store.getters.getUserInformation.id
+          authKey: this.$store.getters.getUserInformation.openId
         }).then((res) => {
           this.$emit('close', this.phone)
         })

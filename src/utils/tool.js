@@ -21,7 +21,7 @@ function getUrlParams (query, _url) {
 }
 
 function sign () {
-  const str = `${config.activity.id}_${store.getters.getUserInformation.id}_${config[config.channel].auth_type}`
+  const str = `${config.activity.id}_${store.getters.getUserInformation.openId}_${config[config.channel].auth_type}`
   return md5(str)
 }
 
@@ -82,11 +82,18 @@ const mergeOptions = function ($vm, options) {
   })
 }
 
+function setProperties (stateProperty, update) {
+  Object.keys(update).forEach((key, index) => {
+    stateProperty[key] = update[key]
+  })
+}
+
 export {
   getUrlParams,
   sign,
   genPostDate,
   genGetDate,
   resize,
-  mergeOptions
+  mergeOptions,
+  setProperties
 }

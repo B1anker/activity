@@ -1,8 +1,8 @@
 <template>
   <view-box ref="viewBox" class="home">
      <router-view @close="changeRouter"></router-view>
-     <div v-if="btnVisible" class="award-btn" @click="toAward"></div>
-     <div v-if="btnVisible" class="rule-btn" @click="showRule"></div>
+     <div v-if="awardBtnVisible" class="award-btn" @click="toAward"></div>
+     <div v-if="ruleBtnVisible" class="rule-btn" @click="showRule"></div>
      <rule-dialog :visible="ruleDialogVisble" @close="closeRule"></rule-dialog>
   </view-box>
 </template>
@@ -25,19 +25,10 @@ export default {
 
   computed: {
     ...mapState({
-      id: state => state.user.id
-    }),
-
-    btnVisible () {
-      switch (this.$route.name) {
-        case 'Game':
-          return true
-        case 'Award':
-          return false
-        default:
-          return false
-      }
-    }
+      openId: state => state.user.openId,
+      awardBtnVisible: state => state.buttonVisible.award,
+      ruleBtnVisible: state => state.buttonVisible.rule
+    })
   },
 
   data () {
@@ -47,20 +38,18 @@ export default {
   },
 
   mounted () {
-    this.fetchDate()
+    this.fetchInfo()
   },
 
   methods: {
-    fetchDate () {
+    fetchInfo () {
       this.$http.get(api.info, {
         params: {
           type: 'WECHAT',
-          authKey: this.id
+          authKey: this.openId
         }
       }).then((res) => {
-        this.$store.dispatch('setUserInformation', {
-          state: res.data
-        })
+        this.$store.dispatch('setAvtivityState', res.data)
         this.$router.push('/home/game')
       }).catch((err) => {
         error.call(this, err.response.data)
@@ -68,11 +57,15 @@ export default {
     },
 
     toAward () {
+      this.$store.dispatch('setButtonVisible', {
+        award: false,
+        rule: false
+      })
       this.$router.push('/home/award')
     },
 
     changeRouter () {
-      this.fetchDate()
+      // this.fetchInfo()
     },
 
     showRule () {
