@@ -71,7 +71,7 @@ export default {
     padding: .2rem;
 
     .head {
-      @extend %align-center;
+      @extend %horizontal-center;
       @include background('../../assets/dialogHeadImg/rule_head.png');
       top: -.4rem;
       width: 100%;

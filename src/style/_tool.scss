@@ -1,7 +1,7 @@
 @import './mixin';
 @import './variable';
 
-%align-center {
+%horizontal-center {
   @include psa;
   left: 0;
   right: 0;

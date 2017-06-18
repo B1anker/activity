@@ -52,7 +52,11 @@
     <div v-else class="no-award">
       暂无奖品
     </div>
-    <phone-dialog :trophyData="trophyData" :visible="phoneDialogVisible"></phone-dialog>
+    <phone-dialog 
+      :trophyData="trophyData" 
+      :visible="phoneDialogVisible" 
+      @close="finishExchange">
+    </phone-dialog>
   </view-box>
 </template>
 
@@ -83,22 +87,7 @@ export default {
   },
 
   mounted () {
-    draw('get').then((res) => {
-      const trophyItems = res.data.trophyItems.filter((item, index) => {
-        return item.trophyDisplayName !== '谢谢参与'
-      }).map((item, index) => {
-        item.tips = this.addTips(item.trophyDisplayName)
-        return item
-      })
-      this.$store.dispatch('addTrophy', trophyItems)
-    }).catch((err) => {
-      console.log(err)
-      this.$info({
-        content: [
-          '获取奖品数据失败'
-        ]
-      })
-    })
+    this.fetchTrophies()
   },
 
   data () {
@@ -109,6 +98,25 @@ export default {
   },
 
   methods: {
+    fetchTrophies () {
+      draw('get').then((res) => {
+        const trophyItems = res.data.trophyItems.filter((item, index) => {
+          return item.trophyDisplayName !== '谢谢参与'
+        }).map((item, index) => {
+          item.tips = this.addTips(item.trophyDisplayName)
+          return item
+        })
+        this.$store.dispatch('addTrophy', trophyItems)
+      }).catch((err) => {
+        console.log(err)
+        this.$info({
+          content: [
+            '获取奖品数据失败'
+          ]
+        })
+      })
+    },
+
     handleClose () {
       this.$emit('close', 'award')
       this.$router.push('/home')
@@ -128,6 +136,11 @@ export default {
         case '手机流量10元':
           return '手机流量将发送至填写的手机账号中，<br />请留意您的短信通知。'
       }
+    },
+
+    finishExchange () {
+      this.phoneDialogVisible = false
+      this.fetchTrophies()
     }
   }
 }
@@ -192,7 +205,7 @@ div.weui-tab__panel {
         @extend %virtual;
 
         .content {
-          @extend %align-center;
+          @extend %horizontal-center;
           top: .7rem;
           z-index: 99;
           color: white;
@@ -212,7 +225,7 @@ div.weui-tab__panel {
           }
 
           .type {
-            @extend %align-center;
+            @extend %horizontal-center;
             top: .7rem;
             font-size: 0.12rem;
           }
@@ -223,7 +236,7 @@ div.weui-tab__panel {
         @extend %virtual;
 
         .content {
-          @extend %align-center;
+          @extend %horizontal-center;
           top: .7rem;
           z-index: 99;
           color: white;
@@ -243,7 +256,7 @@ div.weui-tab__panel {
           }
 
           .type {
-            @extend %align-center;
+            @extend %horizontal-center;
             top: .6rem;
             font-size: 0.12rem;
           }
@@ -270,7 +283,7 @@ div.weui-tab__panel {
   }
 
   .no-award {
-    @extend %align-center;
+    @extend %horizontal-center;
     top: 3.5rem;
     font-size: .3rem;
     color: white;

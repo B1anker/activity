@@ -5,7 +5,7 @@ import Game from '@/components/game'
 import AwardPage from '@/components/award'
 import Error from '@/components/error'
 
-import home from './home'
+import judgeActivityState from './judgeActivityState'
 
 Vue.use(Router)
 
@@ -34,7 +34,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  home(...arguments)
+  judgeActivityState(...arguments)
   next()
 })
 

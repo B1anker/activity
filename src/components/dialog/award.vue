@@ -118,7 +118,7 @@ export default {
       overflow: hidden;
 
       .content {
-        @extend %align-center;
+        @extend %horizontal-center;
         top: .3rem;
         z-index: 99;
         color: white;
@@ -138,7 +138,7 @@ export default {
         }
 
         .type {
-          @extend %align-center;
+          @extend %horizontal-center;
           top: .7rem;
           font-size: 0.12rem;
         }
@@ -149,7 +149,7 @@ export default {
       @extend %virtual;
 
       .content {
-        @extend %align-center;
+        @extend %horizontal-center;
         top: .7rem;
         z-index: 99;
         color: white;
@@ -169,7 +169,7 @@ export default {
         }
 
         .type {
-          @extend %align-center;
+          @extend %horizontal-center;
           top: .6rem;
           font-size: 0.12rem;
         }

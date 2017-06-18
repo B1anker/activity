@@ -126,6 +126,10 @@ export default {
     closePhoneDialog (params) {
       this.phoneDialogVisible = false
       this.$emit('close', 'game')
+      this.$store.dispatch('setButtonVisible', {
+        award: false,
+        rule: false
+      })
       this.$router.push('award')
     }
   }
@@ -154,7 +158,7 @@ export default {
   }
 
   .center-egg {
-    @extend %align-center;
+    @extend %horizontal-center;
     top: 3rem;
     @include set-width-height(1.54rem, 2.09rem);
     @include background('../assets/game/egg_big.png');
@@ -186,7 +190,7 @@ export default {
   }
 
   .times {
-    @extend %align-center;
+    @extend %horizontal-center;
     top: 4.9rem;
     color: white;
 

@@ -25,6 +25,7 @@ const state = {
     timestamp: ''
   },
   activityState: {
+    state: 'NORMAL',
     gameDayTimesLimit: 0,
     gameTotalTimesLimit: 0,
     playerDayTimes: 0,
