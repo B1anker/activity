@@ -1,5 +1,5 @@
 export default {
-  debug: true,
+  debug: false,
   userId: 'oJtlXwVFsX3Qwzntbz42JiGCCp3g',
   activity: {
     id: 'DL3dfeff45a025497cbcb94a896d0b1e9d',

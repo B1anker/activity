@@ -88,6 +88,32 @@ function setProperties (stateProperty, update) {
   })
 }
 
+function broserType () {
+  const ua = navigator.userAgent.toLowerCase()
+  if (/(UCBrowser)/i.test(ua)) {
+    return 'OTHERS'
+  } else if (/(MicroMessenger)/i.test(ua)) {
+    return 'WETCH_TYPE'
+  }
+  return 'OTHERS'
+}
+
+function sysType () { // 设备终端检测
+  const ua = navigator.userAgent.toLowerCase()
+  if (/(iphone|ipad|ipod|ios)/i.test(ua)) {
+    return 'IOS'
+  } else if (/(Android)/i.test(ua)) {
+    return 'Android'
+  } else {
+    return 'PC'
+  }
+}
+
+function isTargetBrowser () {
+  const ua = navigator.userAgent.toLowerCase()
+  return ua.indexOf(config[config.channel].ua) !== -1
+}
+
 export {
   getUrlParams,
   sign,
@@ -95,5 +121,8 @@ export {
   genGetDate,
   resize,
   mergeOptions,
-  setProperties
+  setProperties,
+  broserType,
+  sysType,
+  isTargetBrowser
 }

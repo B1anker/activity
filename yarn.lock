@@ -2554,6 +2554,10 @@ find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
+fingerprintjs@^0.5.3:
+  version "0.5.3"
+  resolved "http://r.cnpmjs.org/fingerprintjs/download/fingerprintjs-0.5.3.tgz#0026422fae1ab1003691e136c143e19b7527b255"
+
 flat-cache@^1.2.1:
   version "1.2.2"
   resolved "http://r.cnpmjs.org/flat-cache/download/flat-cache-1.2.2.tgz#fa86714e72c21db88601761ecf2f555d1abc6b96"

@@ -7,6 +7,10 @@
     <div class="times">
       <p>今天您还有<span>{{ times }}</span>次砸蛋机会</p>
     </div>
+    <x-dialog v-model="crackVisible">
+      <div class="crack" ref="crack">
+      </div>
+    </x-dialog>
     <award-dialog :visible="awardDialogVisible"
       :trophyData="trophyData"
       @close="closeAwardDialog">
@@ -46,6 +50,7 @@ export default {
         right: false,
         origin: true
       },
+      crackVisible: false,
       awardDialogVisible: false,
       phoneDialogVisible: false,
       trophyData: {}
@@ -76,6 +81,28 @@ export default {
   methods: {
     setHammerEvent () {
       this.$refs.hammer.removeEventListener('transitionend', this.setHammerEvent, false)
+      this.crackVisible = true
+      this.changeBackgroundPosition().then(() => {
+        this.handleDraw()
+      })
+    },
+
+    changeBackgroundPosition () {
+      return new Promise((resolve, reject) => {
+        const times = 18
+        let current = 0
+        const timer = setInterval(() => {
+          current++
+          if (current >= times - 1) {
+            resolve()
+            clearInterval(timer)
+          }
+          this.$refs.crack.style.backgroundPosition = `-${(current * 2.83 + 'rem')} 0`
+        }, 100)
+      })
+    },
+
+    handleDraw () {
       draw('post').then((res) => {
         this.trophyData = res.data.trophyItems[0]
         this.awardDialogVisible = true
@@ -86,6 +113,7 @@ export default {
             err.response.data.message
           ]
         }).then(() => {
+          this.crackVisible = false
           this.setTrue(this.hammerMoveClass, 'origin')
         })
       })
@@ -205,6 +233,19 @@ export default {
       margin: 0 .05rem;
       font-size: .28rem;
     }
+  }
+
+  .weui-dialog {
+    background-color: transparent;
+  }
+
+  .crack {
+    margin: 0 auto;
+    width: 2.8325rem;
+    height: 3.82rem;
+    background: url('../assets/game/crack.png');
+    background-color: transparent;
+    background-size: 1800% 100%;
   }
 }
 </style>

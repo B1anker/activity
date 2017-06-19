@@ -1,9 +1,11 @@
 import Vue from 'vue'
 
 import Info from './info'
+import Statistic from './statistic'
 
 const plugins = {
-  Info
+  Info,
+  Statistic
 }
 
 export default function installAllPlugins () {

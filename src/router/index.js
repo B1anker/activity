@@ -34,7 +34,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  judgeActivityState(...arguments)
+  judgeActivityState(to, from, next)
   next()
 })
 

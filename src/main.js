@@ -8,8 +8,8 @@ import store from './store/store'
 import { httpSetting, httpPlugin } from '@/api/http'
 import installAllPlugins from '@/plugins'
 
-Vue.use(httpPlugin, httpSetting(router))
 Vue.use(Vuex)
+Vue.use(httpPlugin, httpSetting(router))
 
 installAllPlugins()
 

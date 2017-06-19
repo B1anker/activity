@@ -2,9 +2,13 @@
  * Created by B1anker on 2017/06/10.
  */
 'use strict'
+import Vue from 'vue'
+import { LoadingPlugin } from 'vux'
 import axios from 'axios'
 import api from './api'
 import { sign, genPostDate, genGetDate } from '@/utils/tool'
+
+Vue.use(LoadingPlugin)
 
 function httpSetting ($router) {
   let http = axios.create({
@@ -18,6 +22,9 @@ function httpSetting ($router) {
 
   http.interceptors.request.use((config) => {
     const method = config.method.toLowerCase()
+    Vue.$vux.loading.show({
+      text: '请求中...'
+    })
     if (method === 'post' || method === 'put') {
       config.url += `?sign=${sign()}`
       config.data = genPostDate(config.data || {})
@@ -31,11 +38,13 @@ function httpSetting ($router) {
   })
 
   http.interceptors.response.use((response) => {
+    Vue.$vux.loading.hide()
     if (response.status !== 200) {
       console.log('!200')
     }
     return response
   }, (error) => {
+    Vue.$vux.loading.hide()
     return Promise.reject(error)
   })
 

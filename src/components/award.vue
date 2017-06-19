@@ -118,8 +118,12 @@ export default {
     },
 
     handleClose () {
+      this.$store.dispatch('setButtonVisible', {
+        award: true,
+        rule: true
+      })
       this.$emit('close', 'award')
-      this.$router.push('/home')
+      this.$router.back()
     },
 
     handleClick (index) {

@@ -5,13 +5,15 @@
 </template>
 
 <script>
-import auth from '@/utils/auth'
+import auth from '@/business/auth'
+import share from '@/business/share'
 import { resize } from '@/utils/tool'
 export default {
   name: 'app',
 
-  created () {
-    auth()
+  async created () {
+    await auth()
+    share()
     resize()
   }
 }

@@ -51,6 +51,7 @@ export default {
 
 <style lang="scss" scope>
 @import '../style/tool';
+
 div.weui-dialog {
   border-radius: .1rem;
 }
