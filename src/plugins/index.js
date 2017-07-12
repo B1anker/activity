@@ -2,10 +2,12 @@ import Vue from 'vue'
 
 import Info from './info'
 import Statistic from './statistic'
+import Result from './result'
 
 const plugins = {
   Info,
-  Statistic
+  Statistic,
+  Result
 }
 
 export default function installAllPlugins () {

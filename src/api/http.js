@@ -29,7 +29,7 @@ function httpSetting ($router) {
       config.url += `?sign=${sign()}`
       config.data = genPostDate(config.data || {})
     } else if (method === 'get') {
-      config.params.sign = sign()
+      config.params ? (config.params.sign = sign()) : (config.params = {})
       config.params = genGetDate(config.params)
     }
     return config

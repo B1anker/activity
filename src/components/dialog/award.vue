@@ -35,7 +35,7 @@
       <div class="trophy-wrap" v-if="trophyData && trophyData.trophyDisplayName === '谢谢参与'">
         <div class="thank">
           <div class="content">
-            <p>很遗憾，这次没有中奖。<br />明天再来吧！<br />话费、流量、iPhone7等您来！</p>
+            <p>很遗憾，这次没有中奖。<br>明天再来吧！<br>话费、流量、iPhone7等您来！</p>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@
     <div class="rule-dialog">
       <div class="head"></div>
       <div class="content">
-        <p v-for="(content, index) in contents">{{ content }}</p>
+        <p v-for="(content, index) in contents" :key="index">{{ content }}</p>
       </div>
     </div>
   </x-dialog>

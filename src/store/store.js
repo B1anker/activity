@@ -17,7 +17,15 @@ const state = {
     nickName: '',
     phone: '',
     timeStamp: '',
-    subscribe: ''
+    subscribe: '',
+    score: 0
+  },
+  fromUser: {
+    fromBroswerId: '',
+    fromPhone: '',
+    fromIdCard: '',
+    fromNickName: '',
+    fromProvince: ''
   },
   auth: {
     noncestr: '',
@@ -38,7 +46,8 @@ const state = {
     rule: true,
     award: true
   },
-  trophies: []
+  trophies: [],
+  direction: ''
 }
 
 export default new Vuex.Store({

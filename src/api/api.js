@@ -10,5 +10,7 @@ export default {
   info: `info/${config.activity.id}`,
   draw: 'draw',
   openId: 'openId',
-  exchange: 'userInfo'
+  exchange: 'userInfo',
+  wechatSignature: 'wechatSignature',
+  shareInfo: 'act/share/'
 }

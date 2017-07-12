@@ -10,6 +10,7 @@ const draw = function (type = 'get') {
       }
     })
   } else if (type === 'post') {
+    console.log(type)
     return this.$http.post(api.draw, {
       authKey: store.getters.getUserInformation.openId
     })
@@ -19,4 +20,3 @@ const draw = function (type = 'get') {
 }.bind(Vue.prototype)
 
 export default draw
-

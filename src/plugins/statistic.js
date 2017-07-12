@@ -1,9 +1,13 @@
 import config from '@/utils/config'
 import { getUrlParams, broserType } from '@/utils/tool'
 import Fingerprint from 'fingerprintjs'
+import store from '@/store/store'
+import Vue from 'vue'
+import api from '@/api/api'
 
 class Statistic {
   constructor () {
+    this.upLineTime = 0
     this.store = {
       'openId': '',
       'activityId': config.activity.id,
@@ -41,11 +45,15 @@ class Statistic {
   }
 
   openHomePage () {
+    this.upLineTime = new Date().getTime()
     this._addAction('OPEN_HOME_PAGE')
   }
 
   downLine () {
+    this.stayTime = parseInt((new Date().getTime() - this.upLineTime) / 1000)
+    this.openId = store.getters.getUserInformation.openId
     this._addAction('DOWN_LINE')
+    return this
   }
 
   adClick () {
@@ -54,6 +62,23 @@ class Statistic {
 
   share (channel) {
     this._addAction('SHARE', channel)
+  }
+
+  jump (from, goto) {
+    let data = {
+      'from': from,
+      'goto': goto,
+      'jumpTime': this.dateFormate(new Date())
+    }
+    this.store.jump.push(data)
+  }
+
+  send () {
+    Vue.prototype.$http.post(api.statistic, this.store).then(() => {
+      console.log('send')
+    }).catch((err) => {
+      console.log('error', err)
+    })
   }
 }
 
